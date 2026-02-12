@@ -1,20 +1,24 @@
 package org.example;
 
-public class MyHashMap {
+import java.util.*;
+
+public class MyHashMap<K, V> {
     private class Node{
-        Object key;
-        Object value;
+        K key;
+        V value;
         Node next;
-        Node(Object key, Object value){
+        Node(K key, V value){
             this.key = key;
             this.value = value;
         }
     }
     private final int CAPACITY = 16;
-    Node[] bucket = new Node[CAPACITY];
+
+    @SuppressWarnings("unchecked")
+    private Node<K, V>[] bucket = (Node<K, V>[]) new Node[CAPACITY];
     int size;
 
-    public void put(Object key, Object value){
+    public void put(K key, V value){
         int index = key.hashCode() % CAPACITY;
         Node current = bucket[index];
         while(current != null){
@@ -30,7 +34,7 @@ public class MyHashMap {
         size++;
     }
 
-    public Object get(Object key){
+    public V get(K key){
         int index = key.hashCode() % CAPACITY;
         Node current = bucket[index];
         while(current != null){
@@ -42,7 +46,7 @@ public class MyHashMap {
         return null;
     }
 
-    public Object remove(Object key) {
+    public V remove(K key) {
         int index = key.hashCode() % CAPACITY;
         Node current = bucket[index];
         Node prev = null;

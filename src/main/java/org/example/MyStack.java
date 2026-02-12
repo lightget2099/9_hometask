@@ -1,16 +1,18 @@
 package org.example;
+import java.util.*;
 
-public class MyStack {
-    private Object[] data;
+public class MyStack<T> {
+    private T[] data;
     private int size;
-
+@SuppressWarnings("unchecked")
     public MyStack(int capacity){
-        data = new Object[capacity];
+        data = (T[]) new Object[capacity];
     }
 
-    public void push(Object value){
+    @SuppressWarnings("unchecked")
+    public void push(T value){
         if(size == data.length){
-            Object[] newData = new Object[data.length*2];
+            T[] newData = (T[]) new Object[data.length*2];
             for(int i=0; i<data.length; i++){
                 newData[i] = data[i];
             }
@@ -20,9 +22,9 @@ public class MyStack {
         size++;
     }
 
-    public Object remove(int index){
+    public T remove(int index){
         if(index < 0 || index >= size) throw new IndexOutOfBoundsException();
-        Object removed = data[index];
+        T removed = data[index];
         for(int i = index; i< size-1; i++){
             data[i] = data[i+1];
         }
@@ -41,7 +43,7 @@ public class MyStack {
         return size;
     }
 
-    public Object peek(){
+    public T peek(){
         if(size == 0){
             return null;
         }else {
@@ -49,11 +51,11 @@ public class MyStack {
         }
     }
 
-    public Object pop(){
+    public T pop(){
         if(size == 0){
             return null;
         }
-        Object removed = data[size-1];
+        T removed = data[size-1];
         data[size-1] = null;
         size--;
         return removed;

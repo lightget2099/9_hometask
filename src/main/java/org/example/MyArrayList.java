@@ -1,16 +1,21 @@
 package org.example;
+import java.util.*;
 
-public class MyArrayList {
-    private Object[] data;
+public class MyArrayList<T> {
+    private T[] data;
     private int size;
+
+    //були проблеми з компілятором, то гуглив, щоб вирішити проблему, і використав цю анотацію
+    @SuppressWarnings("unchecked")
     public MyArrayList(int capacity) {
-        data = new Object[capacity];
+        data = (T[]) new Object[capacity];
         size = 0;
     }
 
-    public void add(Object value){
+    public void add(T value){
         if(size == data.length){
-            Object[] newData = new Object[data.length*2];
+            @SuppressWarnings("unchekkced")
+                    T[] newData = (T[]) new Object[data.length*2];
             for (int i = 0; i < data.length; i++) {
                 newData[i] = data[i];
             }

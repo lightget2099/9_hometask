@@ -1,12 +1,13 @@
 package org.example;
+import java.util.*;
 
-public class MyLinkedList {
+public class MyLinkedList<T> {
     private class Node {
-        Object value;
+        T value;
         Node next;
         Node prev;
 
-        Node(Object value){
+        Node(T value){
             this.value = value;
         }
 
@@ -16,7 +17,7 @@ public class MyLinkedList {
     private Node tail;
     private int size;
 
-    public void add(Object value){
+    public void add(T value){
         Node node = new Node(value);
         if(head == null){
             head = node;
@@ -31,23 +32,31 @@ public class MyLinkedList {
 
     public void remove(int index){
         if(index < 0 || index >= size) throw new IndexOutOfBoundsException();
-        Node current = head;
-        for(int i = 0; i < index; i++){
-            current = current.next;
+        Node current;
+        if (index < size / 2) {
+            current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
         }
 
-        if(current.prev != null){
+        if (current.prev != null) {
             current.prev.next = current.next;
         } else {
             head = current.next;
         }
 
-
-        if(current.next != null){
+        if (current.next != null) {
             current.next.prev = current.prev;
         } else {
             tail = current.prev;
         }
+
         size--;
     }
 
@@ -61,12 +70,24 @@ public class MyLinkedList {
         return size;
     }
 
-    public Object get(int index){
+    public T get(int index){
         if(index < 0 || index >= size) throw new IndexOutOfBoundsException();
-        Node current = head;
-        for(int i = 0; i < index; i++){
-            current = current.next;
+        Node current;
+
+        //Я зрозумів, що так буде швидше, якщо будемо працювати з великим списком
+
+        if (index < size / 2) {
+            current = head;
+            for (int i = 0; i < index; i++) {
+                current = current.next;
+            }
+        } else {
+            current = tail;
+            for (int i = size - 1; i > index; i--) {
+                current = current.prev;
+            }
         }
+
         return current.value;
     }
 }
